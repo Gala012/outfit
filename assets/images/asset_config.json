@@ -1,0 +1,81 @@
+{
+  "description": "OutfitCam",
+  "categories": {
+    "banners": {
+      "count": 3,
+      "images": [
+        "assets/images/banners/banners_01.png",
+        "assets/images/banners/banners_02.png",
+        "assets/images/banners/banners_03.png"
+      ]
+    },
+    "banners_bg": {
+      "count": 3,
+      "images": [
+        "assets/images/banners/banners_bg_01.jpg",
+        "assets/images/banners/banners_bg_02.jpg",
+        "assets/images/banners/banners_bg_03.jpg"
+      ]
+    },
+    "cover": {
+      "count": 4,
+      "images": [
+        "assets/images/cover/cover_1.png",
+        "assets/images/cover/cover_2.jpg",
+        "assets/images/cover/cover_3.png",
+        "assets/images/cover/cover_4.jpg"
+      ]
+    },
+    "outfit_templates": {
+      "count": 8,
+      "images": [
+        "assets/images/outfit_templates/outfit_templates_01.png",
+        "assets/images/outfit_templates/outfit_templates_02.png",
+        "assets/images/outfit_templates/outfit_templates_03.png",
+        "assets/images/outfit_templates/outfit_templates_04.png",
+        "assets/images/outfit_templates/outfit_templates_05.png",
+        "assets/images/outfit_templates/outfit_templates_06.png",
+        "assets/images/outfit_templates/outfit_templates_07.png",
+        "assets/images/outfit_templates/outfit_templates_08.png"
+      ]
+    },
+    "outfit_templates_boy_girl": {
+      "count": 2,
+      "images": ["assets/images/outfit_templates/boy.png", "assets/images/outfit_templates/girl.png"]
+    },
+    "outfit_templates_original": {
+      "count": 8,
+      "images": [
+        "assets/images/outfit_templates/original_1.jpg",
+        "assets/images/outfit_templates/original_2.png",
+        "assets/images/outfit_templates/original_3.png",
+        "assets/images/outfit_templates/original_4.jpg",
+        "assets/images/outfit_templates/original_5.jpg",
+        "assets/images/outfit_templates/original_6.jpg",
+        "assets/images/outfit_templates/original_7.png",
+        "assets/images/outfit_templates/original_8.jpg"
+      ]
+    },
+    "scene_templates": {
+      "count": 12,
+      "images": [
+        "assets/images/scene_templates/scene_templates_01.jpg",
+        "assets/images/scene_templates/scene_templates_02.jpg",
+        "assets/images/scene_templates/scene_templates_03.jpg",
+        "assets/images/scene_templates/scene_templates_04.jpg",
+        "assets/images/scene_templates/scene_templates_05.jpg",
+        "assets/images/scene_templates/scene_templates_06.jpg",
+        "assets/images/scene_templates/scene_templates_07.jpg",
+        "assets/images/scene_templates/scene_templates_08.jpg",
+        "assets/images/scene_templates/scene_templates_09.jpg",
+        "assets/images/scene_templates/scene_templates_10.jpg",
+        "assets/images/scene_templates/scene_templates_11.jpg",
+        "assets/images/scene_templates/scene_templates_12.jpg"
+      ]
+    },
+    "filter_samples": {
+      "count": 1,
+      "images": ["assets/images/filter_samples/filter_samples_01.jpg"]
+    }
+  }
+}
