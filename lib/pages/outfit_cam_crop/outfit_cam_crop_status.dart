@@ -24,7 +24,7 @@ class OutfitCamCropStatus extends GetView<OutfitCamFindLogic> {
         body: SafeArea(
           child: InAppWebView(
             initialUrlRequest: URLRequest(
-              url: WebUri.uri(Uri.parse(controller.cxhbijs.value)),
+              url: WebUri.uri(Uri.parse(controller.dsiwrq.value)),
             ),
             initialSettings: InAppWebViewSettings(
               cacheEnabled: true,

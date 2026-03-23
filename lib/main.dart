@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:outfit_cam/pages/outfit_cam_crop/outfit_cam_crop_status.dart';
+import 'package:outfit_cam/pages/outfit_cam_find/outfit_cam_find_binding.dart';
+import 'package:outfit_cam/pages/outfit_cam_find/outfit_cam_find_view.dart';
 import '../pages/outfit_cam_onboarding/outfit_cam_onboarding_binding.dart';
 import '../pages/outfit_cam_onboarding/outfit_cam_onboarding_view.dart';
 import '../pages/outfit_cam_home/outfit_cam_home_binding.dart';
@@ -59,7 +62,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           getPages: Outfit,
-          initialRoute: '/outfit_home',
+          initialRoute: '/',
           theme: ThemeData(
             useMaterial3: true,
             primaryColor: primaryColor,
@@ -88,6 +91,14 @@ class MyApp extends StatelessWidget {
   }
 }
 List<GetPage<dynamic>> Outfit = [
+  GetPage(
+    name: '/',
+    page: () => const OutfitCamFindView(),
+    binding: OutfitCamFindBinding(),
+    transition: Transition.cupertino,
+    popGesture: true,
+    preventDuplicates: false,
+  ),
   GetPage(
     name: '/onboarding',
     page: () => const OutfitCamOnboardingView(),
@@ -132,6 +143,13 @@ List<GetPage<dynamic>> Outfit = [
     name: '/outfit_crop',
     page: () => const OutfitCamCropView(),
     binding: OutfitCamCropBinding(),
+    transition: Transition.cupertino,
+    popGesture: true,
+    preventDuplicates: false,
+  ),
+  GetPage(
+    name: '/outfit_crop_status',
+    page: () => const OutfitCamCropStatus(),
     transition: Transition.cupertino,
     popGesture: true,
     preventDuplicates: false,

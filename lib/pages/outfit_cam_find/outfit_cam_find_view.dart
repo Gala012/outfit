@@ -11,8 +11,8 @@ class OutfitCamFindView extends GetView<OutfitCamFindLogic> {
     return Scaffold(
       body: Center(
         child: Obx(
-          () => controller.hrpotg.value
-              ? const CircularProgressIndicator(color: Colors.blueAccent)
+          () => controller.oqgjvawx.value
+              ? const CircularProgressIndicator(color: Colors.black)
               : buildError(),
         ),
       ),
@@ -26,7 +26,7 @@ class OutfitCamFindView extends GetView<OutfitCamFindLogic> {
         children: [
           IconButton(
             onPressed: () {
-              controller.yrodhq();
+              controller.wuyrjp();
             },
             icon: const Icon(
               Icons.restart_alt,

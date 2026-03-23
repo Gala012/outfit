@@ -7,7 +7,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Outfit Cam</string>
+	<string>QUADRATURE CL</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>outfit_cam</string>
+	<string>QUADRATURE CL</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -26,6 +26,12 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Please authorize your camera to take photos for creative styling purposes.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Please authorize your photo album to save creative combinations.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Please authorize your photo album to upload photos for creative styling.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -66,11 +72,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library to select images for face detection and outfit creation.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>We need access to save your created outfit images to your photo library.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to take photos for outfit creation.</string>
 </dict>
 </plist>
