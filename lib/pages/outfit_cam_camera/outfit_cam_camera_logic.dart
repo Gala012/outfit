@@ -49,9 +49,7 @@ class OutfitCamCameraLogic extends GetxController {
           performanceMode: FaceDetectorMode.fast,
         ),
       );
-      print('✅ Face detector initialized (minFaceSize: 1%, fast mode)');
     } catch (e) {
-      print('❌ Failed to init face detector: $e');
       errorToast('Face detector initialization failed');
     }
   }
@@ -67,9 +65,7 @@ class OutfitCamCameraLogic extends GetxController {
         });
         await prefs.setBool('camera_first_time', false);
       }
-    } catch (e) {
-      print('Check first time error: $e');
-    }
+    } catch (e) {}
   }
 
   void closeGuide() {
@@ -115,7 +111,6 @@ class OutfitCamCameraLogic extends GetxController {
     } catch (e) {
       isLoading.value = false;
       errorToast('Camera initialization failed: ${e.toString()}');
-      print('Camera init error: $e');
     }
   }
 
@@ -148,7 +143,6 @@ class OutfitCamCameraLogic extends GetxController {
     } catch (e) {
       isLoading.value = false;
       errorToast('Failed to switch camera');
-      print('Switch camera error: $e');
     }
   }
 
@@ -173,22 +167,17 @@ class OutfitCamCameraLogic extends GetxController {
     } catch (e) {
       isLoading.value = false;
       errorToast('Failed to take photo: ${e.toString()}');
-      print('Take photo error: $e');
     }
   }
 
   Future<String?> _processImageOrientation(String imagePath) async {
     try {
-      print('📐 Processing image orientation...');
       final bytes = await File(imagePath).readAsBytes();
       img.Image? image = img.decodeImage(bytes);
       if (image == null) {
-        print('❌ Failed to decode image');
         return null;
       }
-      print('📏 Original image: ${image.width}x${image.height}');
       if (isFrontCamera.value) {
-        print('🔄 Flipping image horizontally (front camera)');
         image = img.flipHorizontal(image);
       }
       final tempDir = await getTemporaryDirectory();
@@ -196,10 +185,8 @@ class OutfitCamCameraLogic extends GetxController {
           '${tempDir.path}/processed_${DateTime.now().millisecondsSinceEpoch}.jpg';
       final processedFile = File(processedPath);
       await processedFile.writeAsBytes(img.encodeJpg(image, quality: 95));
-      print('✅ Image processed and saved: $processedPath');
       return processedPath;
     } catch (e) {
-      print('❌ Error processing image orientation: $e');
       return imagePath;
     }
   }
@@ -226,67 +213,39 @@ class OutfitCamCameraLogic extends GetxController {
     } catch (e) {
       isLoading.value = false;
       errorToast('Failed to pick image: ${e.toString()}');
-      print('Pick from gallery error: $e');
     }
   }
 
   Future<void> _detectAndProcessFace(String imagePath) async {
     try {
-      print('🔍 ========== Starting face detection ==========');
-      print('📸 Image path: $imagePath');
       final file = File(imagePath);
       if (!await file.exists()) {
         isLoading.value = false;
         errorToast('Image file not found');
-        print('❌ Image file does not exist');
         return;
       }
       final fileSize = await file.length();
-      print('📦 File size: ${(fileSize / 1024).toStringAsFixed(2)} KB');
       if (_faceDetector == null) {
         isLoading.value = false;
         errorToast('Face detector not initialized');
-        print('❌ ERROR: Face detector is null');
         return;
       }
-      print('✅ Face detector is ready (minFaceSize: 1%)');
       try {
         final bytes = await file.readAsBytes();
         final image = img.decodeImage(bytes);
-        if (image != null) {
-          print('📐 Image dimensions: ${image.width}x${image.height}');
-        }
-      } catch (e) {
-        print('⚠️ Could not read image dimensions: $e');
-      }
-      print('🔍 Creating InputImage...');
+        if (image != null) {}
+      } catch (e) {}
       final inputImage = InputImage.fromFilePath(imagePath);
-      print('✅ InputImage created successfully');
-      print('🔍 Processing image for face detection...');
       final faces = await _faceDetector!.processImage(inputImage);
-      print('✅ Face detection completed. Found ${faces.length} face(s)');
       if (faces.isEmpty) {
         isLoading.value = false;
-        print('⚠️ No faces detected in the image');
         _showNoFaceDetectedDialog(imagePath);
         return;
       }
-      print('👤 Face details:');
-      for (var i = 0; i < faces.length; i++) {
-        final face = faces[i];
-        print('  Face $i:');
-        print('    - BoundingBox: ${face.boundingBox}');
-        print('    - HeadEulerAngleY: ${face.headEulerAngleY}');
-        print('    - HeadEulerAngleZ: ${face.headEulerAngleZ}');
-      }
-      print('✅ ========== Face detection completed successfully ==========');
       isLoading.value = false;
       _showTemplateSelectionDialog(imagePath);
     } catch (e) {
       isLoading.value = false;
-      print('❌ ========== ERROR in _detectAndProcessFace ==========');
-      print('❌ Error: $e');
-      print('❌ Stack trace: ${StackTrace.current}');
       if (e.toString().contains('corrupt') ||
           e.toString().contains('invalid')) {
         errorToast('Image file is damaged');
@@ -335,9 +294,9 @@ class OutfitCamCameraLogic extends GetxController {
                       child: _buildTemplateOption(
                         'assets/images/outfit_templates/boy.png',
                         'Boy',
-                        () {
+                        () async {
                           Get.back();
-                          _applyTemplate(
+                          await _applyTemplate(
                             imagePath,
                             'assets/images/outfit_templates/boy.png',
                           );
@@ -349,9 +308,9 @@ class OutfitCamCameraLogic extends GetxController {
                       child: _buildTemplateOption(
                         'assets/images/outfit_templates/girl.png',
                         'Girl',
-                        () {
+                        () async {
                           Get.back();
-                          _applyTemplate(
+                          await _applyTemplate(
                             imagePath,
                             'assets/images/outfit_templates/girl.png',
                           );
@@ -444,14 +403,13 @@ class OutfitCamCameraLogic extends GetxController {
       final File photoFile = File(photoPath);
       await Future.delayed(const Duration(milliseconds: 500));
       isLoading.value = false;
-      Get.toNamed(
+      await Get.toNamed(
         '/cartoon_head',
         arguments: {'photo': photoFile, 'template': templatePath},
       );
     } catch (e) {
       isLoading.value = false;
       errorToast('Failed to apply template');
-      print('Apply template error: $e');
     }
   }
 
@@ -498,9 +456,9 @@ class OutfitCamCameraLogic extends GetxController {
                         'Album',
                         secondaryColor,
                         Colors.white,
-                        () {
+                        () async {
                           Get.back();
-                          pickFromGallery();
+                          await pickFromGallery();
                         },
                       ),
                     ),
