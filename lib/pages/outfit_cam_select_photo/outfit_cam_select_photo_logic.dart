@@ -15,7 +15,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as img;
 import '../../utils/index.dart';
 import '../../main.dart';
-class OutfitCamSelectPhotoLogic extends GetxController {
+class OutfitCamSelectPhotoLogic extends GetxController with WidgetsBindingObserver {
   final isLoading = false.obs;
   final loadingMessage = 'Loading...'.obs;
   final selectedImage = Rx<File?>(null);
@@ -33,14 +33,17 @@ class OutfitCamSelectPhotoLogic extends GetxController {
   );
   SelfieSegmenter? _segmenter;
   Timer? _detectionTimer;
+  bool _shouldCheckPermissionOnResume = false;
   @override
   void onInit() {
     super.onInit();
+    WidgetsBinding.instance.addObserver(this);
     _initSegmenter();
     _loadAlbums();
   }
   @override
   void onClose() {
+    WidgetsBinding.instance.removeObserver(this);
     _faceDetector.close();
     _segmenter?.close();
     _detectionTimer?.cancel();
@@ -56,9 +59,41 @@ class OutfitCamSelectPhotoLogic extends GetxController {
       print('Failed to init segmenter: $e');
     }
   }
+  
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && _shouldCheckPermissionOnResume) {
+      _shouldCheckPermissionOnResume = false;
+      _loadAlbums();
+    }
+  }
   Future<void> _loadAlbums() async {
     try {
-      final PermissionState ps = await PhotoManager.requestPermissionExtend();
+      final PermissionState currentState = await PhotoManager.getPermissionState(
+        requestOption: const PermissionRequestOption(
+          iosAccessLevel: IosAccessLevel.readWrite,
+          androidPermission: AndroidPermission(
+            type: RequestType.image,
+            mediaLocation: false,
+          ),
+        ),
+      );
+      
+      PermissionState ps;
+      if (currentState.isAuth) {
+        ps = currentState;
+      } else {
+        ps = await PhotoManager.requestPermissionExtend(
+          requestOption: const PermissionRequestOption(
+            iosAccessLevel: IosAccessLevel.readWrite,
+            androidPermission: AndroidPermission(
+              type: RequestType.image,
+              mediaLocation: false,
+            ),
+          ),
+        );
+      }
+      
       if (!ps.isAuth) {
         _showPermissionDialog();
         return;
@@ -421,11 +456,12 @@ class OutfitCamSelectPhotoLogic extends GetxController {
                     SizedBox(width: 12.w),
                     Expanded(
                       child: _buildDialogButton(
-                        'Go to Settings',
+                        'Settings',
                         primaryColor,
                         Colors.white,
                         () {
                           Get.back();
+                          _shouldCheckPermissionOnResume = true;
                           PhotoManager.openSetting();
                         },
                       ),
