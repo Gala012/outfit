@@ -91,7 +91,7 @@ class OutfitCamOutfitLogic extends GetxController {
 
   Future<void> onChangeImageTap() async {
     try {
-      final result = await Get.toNamed('/select_photo');
+      final result = await Get.toNamed('/outfit_select_photo');
       if (result != null && result is File) {
         faceImage.value = result;
         faceDetected.value = true;
