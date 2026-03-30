@@ -404,7 +404,7 @@ class OutfitCamCameraLogic extends GetxController {
       await Future.delayed(const Duration(milliseconds: 500));
       isLoading.value = false;
       await Get.toNamed(
-        '/cartoon_head',
+        '/outfit_cartoon_head',
         arguments: {'photo': photoFile, 'template': templatePath},
       );
     } catch (e) {
